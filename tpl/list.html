@@ -24,7 +24,7 @@
                     <ul class="option_list clearfloat" id="area">
                         <li data-areaId='0' ng-click="showSubAreas(0)" ng-class="currentAreaId==0?'cur':''">不限</li>
                         <!--ul里面的其他内容都应是动态生成的-->
-                        <li ng-repeat="area in areaData" ng-click="showSubAreas(area.areaId)" ng-show="currentAreaId==area.areaId?'cur':''">{{area.areaName}}</li>
+                        <li ng-repeat="area in areaData" ng-click="showSubAreas(area.areaId)" ng-class="currentAreaId==area.areaId?'cur':''">{{area.areaName}}</li>
                     </ul>
 
                     <!--二级选项-->
@@ -138,7 +138,7 @@
 <section class="zf_list_box container">
     <!--上-->
     <div class="zf_list_head clearfloat">
-        <div>共找到 <b>342</b> 套匹配房源</div>
+        <div>共找到 <b>{{houseData.totalRecord}}</b> 套匹配房源</div>
         <ul>
             <li>排序:</li>
             <li class="cur">默认</li>
@@ -149,6 +149,27 @@
     <!--房源列表图-->
     <div class="zf_list">
         <ul>
+
+            <!--通过ng-repeat获得li-->
+            <li class="clearfloat" ng-repeat="house in houseData.data">
+                <a href="#/detail/{{house.zfId}}"><img ng-src="{{house.pic}}" alt=""></a>
+
+                <div>
+                    <h2><a href="#/detail/{{house.zfId}}">{{house.title}}</a></h2>
+                    <p>
+                        <span>{{house.houseType}}</span>
+                        <span>{{house.leaseWay}}</span>
+                        <span>{{house.size}}㎡</span>
+                        <span>{{house.floor}}</span>
+                        <span>朝向:{{house.orientation}}</span>
+                    </p>
+                    <p>{{house.community}}</p>
+                </div>
+
+                <span><strong>{{house.price}}</strong>元/月</span>
+            </li>
+
+
             <li class="clearfloat">
                 <a href=""><img src="img-house/01.jpg" alt=""></a>
 
@@ -224,9 +245,13 @@
     </div>
     <!--分页条-->
     <div class="zf_pages">
-        <a class="disabled">上一页</a>
+        <a class="houseData.pageNum==0?'disables':''" ng- ng-click="changeData(houseData.pageNum-1)">上一页</a>
+
+        <!--循环页码-->
+        <a ng-repeat="n in pageArray" ng-class="houseData.pageNum==n?'cur':''" ng-click="changeData(n)">{{n}}</a>
+
         <a class="cur" href="">1</a><a href="">2</a><a href="">3</a><a href="">4</a><a href="">5</a><a href="">6</a>
-        <a>下一页</a>
+        <a class="houseData.pageNum==houseData.pageCount+1?'disables':''" ng-click="changeData(houseData.pageNum+1)">下一页</a>
     </div>
 </section>
 
